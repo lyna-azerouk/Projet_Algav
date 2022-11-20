@@ -28,4 +28,4 @@ def table ( x ,n ) :
     result_final =completion( liste , n )
     return result_final
 
-print( table (38,8))
+#print( table (38,8))
