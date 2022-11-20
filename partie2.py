@@ -41,4 +41,16 @@ def affiche(arbre ):
     if  arbre !=None :
         return  (  print (arbre.label), affiche( arbre.G)  ,affiche( arbre.D) )
 print("parcours prefefixe de l'arbre ")      
-affiche(cons_arbre(resultat)) 
+arbre_decision=(cons_arbre(resultat)) 
+
+def luka ( arbre ) : 
+    if arbre !=None :
+        if arbre.G==None and arbre.D==None :
+            arbre.label= "("+ str( arbre.label)+")"
+        else :
+            luka (arbre.G)
+            luka(arbre.D)
+    
+
+
+affiche (luka(arbre_decision))
