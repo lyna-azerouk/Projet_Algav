@@ -3,6 +3,7 @@ from  partie1 import table
 class Arbre():
     def __init__(self,nom=''):
         self.label = nom
+        self.mot_luka=''
         self.G = None
         self.D = None
 
@@ -40,17 +41,21 @@ resultat = table (38,8)
 def affiche(arbre ):
     if  arbre !=None :
         return  (  print (arbre.label), affiche( arbre.G)  ,affiche( arbre.D) )
-print("parcours prefefixe de l'arbre ")      
+#print("parcours prefefixe de l'arbre ")      
 arbre_decision=(cons_arbre(resultat)) 
 
 def luka ( arbre ) : 
-    if arbre !=None :
+    if arbre ==None  :  return  arbre
+    else :
         if arbre.G==None and arbre.D==None :
-            arbre.label= "("+ str( arbre.label)+")"
+                 arbre.mot_luka=arbre.label       
+                 return arbre 
         else :
-            luka (arbre.G)
-            luka(arbre.D)
-    
+           arbre.mot_luka= '(' + arbre.label + arbre.mot_luka+ str( (luka(arbre.G)).mot_luka )+ str( luka(arbre.D).mot_luka ) + ')'
+           return arbre
 
 
-affiche (luka(arbre_decision))
+arbre_luka = luka(arbre_decision)
+affiche(arbre_luka)
+
+
