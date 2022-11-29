@@ -46,10 +46,10 @@ resultat = table (38,8)
 
 def affiche(arbre ):
     if  arbre !=None :
-        return  (  print (arbre.mot_luka), affiche( arbre.G)  ,affiche( arbre.D) )
+        return  (  print ( str ( arbre.mot_luka) + str ( arbre)), affiche( arbre.G)  ,affiche( arbre.D) )
 print("parcours prefefixe de l'arbre ")      
 arbre_decision=(cons_arbre(resultat)) 
-affiche(arbre_decision)
+#affiche(arbre_decision)
 def luka ( arbre ) : 
     if arbre ==None  :  return  arbre
     else :
@@ -62,7 +62,51 @@ def luka ( arbre ) :
 
 
 arbre_luka = luka(arbre_decision)
-affiche(arbre_luka) 
+#affiche(arbre_luka) 
+
+
+#qst 2.8
+def compression (arbre, liste):
+    #arbre vide
+    if arbre == None :
+        return arbre
+    #arbre pas vide
+    else: 
+        #initialisation de la liste si vide 
+        if liste == []:
+            liste.append  (   [ False  , Arbre(False ) ]) 
+            liste.append ( [True , Arbre(True )  ]) 
+        #parcours de la liste a la recherche du mot luka
+        #liste [[1,2][1,2][1,2][1,2]]
+        #liste [mot_luka][arbre]
+        i=0
+        sim=-1
+        for i in range(len(liste)):
+            if liste[i][0]==arbre.mot_luka:
+                sim=i
+
+        #arbre pas dans la table
+        if sim == -1:
+            liste.append (  [arbre.mot_luka  , arbre  ]) 
+            arbre.D = compression(arbre.D, liste)
+            arbre.G = compression(arbre.G, liste)
+                
+        #arbre dans la table
+        else :
+            arbre = liste [sim][1]
+            compression ( arbre.G,liste ) 
+            compression(arbre.D,liste )
+        return arbre 
+
+liste =[] 
+result_compresion=compression ( arbre_luka , liste )
+affiche(result_compresion)
+# l'affichage des adresses des noeud "true" et "false " sont tjr les mme   
+# adresse noeud true==>  0x00000225B40D0A10  
+#   adrsse du noeud false ==>0x00000225B40D09D0
+# adresse du noeud x1(False) (true)==> x1(False)(True)<__main__.Arbre object at 0x00000190740B0690>
+
+
 
 #qst 3.10
 def compression_2 ( arbre , liste ):
@@ -88,6 +132,7 @@ def compression_2 ( arbre , liste ):
     return arbre 
     
 
+
 def  compression_bdd ( arbre  ):
     if arbre ==None : return  arbre 
     noeudf= Arbre (False )
@@ -111,12 +156,6 @@ def  compression_bdd ( arbre  ):
 #affiche(arbre_Robdd) 
 
 
-
-
-
-    
-
-         
 
 
 
