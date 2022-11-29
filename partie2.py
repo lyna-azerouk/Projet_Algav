@@ -64,6 +64,47 @@ def luka ( arbre ) :
 arbre_luka = luka(arbre_decision)
 affiche(arbre_luka) 
 
+
+#qst 2.8
+def compression (arbre, liste):
+    #arbre vide
+    if arbre == None :
+        return arbre
+    #arbre pas vide
+    else: 
+        #initialisation de la liste si vide 
+        if liste == None:
+            liste[0][0] = False
+            liste[0][1] = arbre("False")
+            liste[1][0] = True
+            liste[1][1] = arbre("True")
+        #parcours de la liste a la recherche du mot luka
+        #liste [[1,2][1,2][1,2][1,2]]
+        #liste [mot_luka][arbre]
+        i=0
+        sim=-1
+        for i in range(len(liste)):
+            if liste[i][0]==arbre.mot_luka:
+                sim=i
+
+        #arbre pas dans la table
+        if sim == -1:
+            liste[i][0] = arbre.mot_luka
+            liste[i][1] = arbre
+            arbre.D = compression(arbre.D, liste)
+            arbre.G = compression(arbre.G, liste)
+                
+        #arbre dans la table
+        else :
+            arbre = liste [sim][1]
+
+
+            return arbre
+                
+
+
+
+
 #qst 3.10
 def compression_2 ( arbre , liste ):
    if arbre==None : return  arbre 
