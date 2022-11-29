@@ -11,7 +11,7 @@ class Arbre():
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (3) : 
+    for j in range (3) :   # 3 == nbr de bit a a dans taille (T)
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -19,16 +19,21 @@ def cons_arbre   ( T):
                 noeudd=Arbre(T[i+1])
                 noeudd.D=None
                 noeudd.G=None
+                noeudd.p=noeudR
                 noeudg=Arbre(T[i])
                 noeudg.D=None
                 noeudg.G=None
+                noeudg.p=noeudR
                 noeudR.G=noeudg
                 noeudR.D=noeudd
+            
             else :
                 noeudR=Arbre ("x"+str(j+1))
+                T [i].p=noeudR
+                T[i+1].p=noeudR
                 noeudR.G=T[i]
                 noeudR.D=T[i+1]
-                
+
             arbre.append(noeudR)
             i=i+2
         T.clear()
@@ -42,9 +47,9 @@ resultat = table (38,8)
 def affiche(arbre ):
     if  arbre !=None :
         return  (  print (arbre.mot_luka), affiche( arbre.G)  ,affiche( arbre.D) )
-#print("parcours prefefixe de l'arbre ")      
+print("parcours prefefixe de l'arbre ")      
 arbre_decision=(cons_arbre(resultat)) 
-#affiche(arbre_decision)
+affiche(arbre_decision)
 def luka ( arbre ) : 
     if arbre ==None  :  return  arbre
     else :
@@ -57,7 +62,7 @@ def luka ( arbre ) :
 
 
 arbre_luka = luka(arbre_decision)
-#affiche(arbre_luka) 
+affiche(arbre_luka) 
 
 #qst 3.10
 def compression_2 ( arbre , liste ):
@@ -79,6 +84,7 @@ def compression_2 ( arbre , liste ):
         arbre.D=arbre.D.G  ; compression_2( arbre.G ,liste) ; compression_2 ( arbre.D,liste) 
     else :
         compression_2 ( arbre.G, liste )  ; compression_2 ( arbre.D, liste )
+    
     return arbre 
     
 
@@ -101,8 +107,8 @@ def  compression_bdd ( arbre  ):
     resultat=compression_2(arbre ,l)
     return resultat
 
-arbre_Robdd= compression_bdd(arbre_luka)
-affiche(arbre_Robdd) 
+#arbre_Robdd= compression_bdd(arbre_luka)
+#affiche(arbre_Robdd) 
 
 
 
