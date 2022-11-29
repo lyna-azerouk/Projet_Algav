@@ -104,7 +104,7 @@ affiche(result_compresion)
 # l'affichage des adresses des noeud "true" et "false " sont tjr les mme   
 # adresse noeud true==>  0x00000225B40D0A10  
 #   adrsse du noeud false ==>0x00000225B40D09D0
-# adresse du noeud x1(False) (true)==> x1(False)(True)<__main__.Arbre object at 0x00000190740B0690>
+# adresse du noeud x1(False) (true)==> x1(False)(True)<__main__.Arbre object at 0x00000209CB940950>
 
 
 
