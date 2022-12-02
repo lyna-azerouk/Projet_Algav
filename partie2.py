@@ -1,12 +1,27 @@
 from  partie1 import decomposition 
 from  partie1 import table 
+
+
+#definition de notre stucture d arbre
 class Arbre():
     def __init__(self,nom=''):
         self.label = nom
         self.mot_luka=''
         self.G = None
         self.D = None
-        self.p=None 
+        self.p=None
+
+
+    def __eq__(self, __o: object) -> bool:
+        return self.mot_luka == __o.mot_luka
+    
+    def __str__(self):
+        return self.label
+
+
+
+
+
 
 def cons_arbre   ( T):
     liste =decomposition (len (T))
@@ -65,7 +80,7 @@ arbre_luka = luka(arbre_decision)
 #affiche(arbre_luka) 
 
 
-#qst 2.8
+#QUESTION 2.8
 def compression (arbre, liste):
     #arbre vide
     if arbre == None :
@@ -105,6 +120,47 @@ affiche(result_compresion)
 # adresse noeud true==>  0x00000225B40D0A10  
 #   adrsse du noeud false ==>0x00000225B40D09D0
 # adresse du noeud x1(False) (true)==> x1(False)(True)<__main__.Arbre object at 0x00000209CB940950>
+
+
+
+#QUESTION 2.9
+def get_liste_dot(arbre):
+    #creation liste vide
+    liste=[]
+    if arbre.G is not None:
+        liste.append(arbre.label+'->'+arbre.G.label+';')
+        liste.extend(get_liste_dot(arbre.G))
+    if arbre.D is not None:
+        liste.append(arbre.label+'->'+arbre.D.label+';')
+        liste.extend(get_liste_dot(arbre.D))
+    return liste
+
+#Input est la racine de l arbre
+#le resultat est un fichier {nom_arbre}.dot
+def digraph_in_dot(arbre):
+    #creation liste vide
+    liste=get_liste_dot(arbre)
+    #write file
+    f = open(arbre.label+".dot", "w")
+    f.write('digraph G {')
+    for i in liste:
+        f.write("\n\t")
+        f.write(i)
+    f.write("\n}")
+    f.close()
+    return liste
+
+
+
+
+
+
+"""
+
+DEBUT PARTIE 3
+
+"""
+
 
 #qst 3.10
 def compression_2 ( arbre , liste ):
