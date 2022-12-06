@@ -12,15 +12,11 @@ class Arbre():
         self.p=None
 
 
-    def __eq__(self, __o: object) -> bool:
-        return self.mot_luka == __o.mot_luka
+   # def __eq__(self, __o: object) -> bool:
+     #   return self.mot_luka == __o.mot_luka
     
-    def __str__(self):
-        return self.label
-
-
-
-
+  #  def __str__(self):
+       # return self.label
 
 
 def cons_arbre   ( T):
