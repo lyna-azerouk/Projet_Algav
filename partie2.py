@@ -11,7 +11,7 @@ class Arbre():
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (3) :   # 3 == nbr de bit a a dans taille (T)
+    for j in range (3) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -47,6 +47,8 @@ resultat = table (38,8)
 def affiche(arbre ):
     if  arbre !=None :
         return  (  print ( str ( arbre.mot_luka) + str ( arbre)), affiche( arbre.G)  ,affiche( arbre.D) )
+
+
 print("parcours prefefixe de l'arbre ")      
 arbre_decision=(cons_arbre(resultat)) 
 #affiche(arbre_decision)
@@ -74,8 +76,16 @@ def compression (arbre, liste):
     else: 
         #initialisation de la liste si vide 
         if liste == []:
-            liste.append  (   [ False  , Arbre(False ) ]) 
-            liste.append ( [True , Arbre(True )  ]) 
+            arbref=Arbre(False ) 
+            arbref.G=None 
+            arbref.D=None
+            arbref.mot_luka=False
+            arbret=Arbre(True ) 
+            arbret.G=None 
+            arbret.D=None
+            arbret.mot_luka=True
+            liste.append  (   [ False  ,arbref ]) 
+            liste.append ( [True , arbret ]) 
         #parcours de la liste a la recherche du mot luka
         #liste [[1,2][1,2][1,2][1,2]]
         #liste [mot_luka][arbre]
@@ -99,8 +109,8 @@ def compression (arbre, liste):
         return arbre 
 
 liste =[] 
-result_compresion=compression ( arbre_luka , liste )
-affiche(result_compresion)
+#result_compresion=compression ( arbre_luka , liste )
+#affiche(result_compresion)
 # l'affichage des adresses des noeud "true" et "false " sont tjr les mme   
 # adresse noeud true==>  0x00000225B40D0A10  
 #   adrsse du noeud false ==>0x00000225B40D09D0
@@ -110,48 +120,33 @@ affiche(result_compresion)
 def compression_2 ( arbre , liste ):
    if arbre==None : return  arbre 
    else :
-    #1ere regle
-    if  arbre.G!=None and arbre.G.mot_luka ==False  :
-        arbre.G=liste[1]  ;   compression_2(arbre.D,liste) ;   compression_2(arbre.G,liste)
-    if arbre.D!=None and arbre.D.mot_luka==False :
-        arbre.D=liste[1];   compression_2(arbre.G,liste)  ;    compression_2(arbre.D,liste) 
-    if arbre.G!=None and arbre.G.mot_luka ==True  :
-        arbre.G=liste[0] ;   compression_2(arbre.D,liste)  ;compression_2(arbre.G,liste)
-    if arbre.D!=None and arbre.D.mot_luka ==True  :
-        arbre.D=liste[0]  ; compression_2(arbre.G,liste);  compression_2(arbre.D,liste) 
     #2eme regle
-    if arbre.G!=None and arbre.G.G!=None and arbre.G.D!=None   and   arbre.G.G.mot_luka==arbre.G.D.mot_luka  :
-        arbre.G=arbre.G.G ;  compression_2 ( arbre.D,liste)  ;  compression_2 ( arbre.G,liste) 
-    if arbre.D!=None and arbre.D.G!=None and arbre.D.D!=None   and   arbre.D.G.mot_luka==arbre.D.D.mot_luka  :
-        arbre.D=arbre.D.G  ; compression_2( arbre.G ,liste) ; compression_2 ( arbre.D,liste) 
+    if arbre.G!=None and arbre.G.G!=None and arbre.G.D!=None   and   str (arbre.G.G.mot_luka)==str ( arbre.G.D.mot_luka ) :
+       arbre.G=arbre.G.G ; return  compression_2 ( arbre.D,liste)  ; return  compression_2 ( arbre.G,liste) 
+    if arbre.D!=None and arbre.D.G!=None and arbre.D.D!=None   and   str (arbre.D.G.mot_luka) ==str ( arbre.D.D.mot_luka ) :
+        arbre.D=arbre.D.G  ; return  compression_2( arbre.G ,liste) ; return  compression_2 ( arbre.D,liste) 
     else :
-        compression_2 ( arbre.G, liste )  ; compression_2 ( arbre.D, liste )
-    
-    return arbre 
-    
 
+        compression_2 ( arbre.G, liste )  ; compression_2 ( arbre.D, liste )
+     
 
 def  compression_bdd ( arbre  ):
     if arbre ==None : return  arbre 
-    noeudf= Arbre (False )
-    noeudt=Arbre(True)
-    noeudf.mot_luka=False 
-    noeudt.mot_luka=True 
-    noeudf.label=False 
-    noeudt.label=True 
-    noeudf.D=None
-    noeudf.G=None 
-    noeudt.G=None 
-    noeudt.D=None
-    l=[]
-    l.append(noeudt)
-    l.append(noeudf)
+    liste =[]
+    #1ere regle et 3 eme regle 
+    arbre_c =  compression (arbre, liste) 
+    #2eme regle 
+    resultat=compression_2(arbre_c,liste)
+    return arbre
+print ("arbre bodd ")
+arbre_Robdd= compression_bdd(arbre_luka)
+affiche(arbre_Robdd) 
 
-    resultat=compression_2(arbre ,l)
-    return resultat
-
-#arbre_Robdd= compression_bdd(arbre_luka)
-#affiche(arbre_Robdd) 
+#On peut voir que les noeud x1 (False) (True) ont la meme adresse x1(False)(True)<__main__.Arbre object at 0x00000254D0C3A050>
+# le parcour du dernieud x2 affiche x2 , x1(False)(True)<__main__.Arbre object at 0x00000254D0C3A050>False<__main__.Arbre object at 0x00000254D0C3A3D0>True<__main__.Arbre object at 0x00000254D0C3A390> False<__main__.Arbre object at 0x00000254D0C3A3D0>
+# c a dire que le dernier False a eté suprimer 
+# les adresses dez tout les noeuds false sont les meme   False<__main__.Arbre object at 0x00000254D0C3A3D0>
+# les adresses dez tout les noeuds True sont les meme True<__main__.Arbre object at 0x00000254D0C3A390>
 
 
 
@@ -159,3 +154,16 @@ def  compression_bdd ( arbre  ):
 
 
 
+
+
+
+
+
+
+
+
+
+
+# les elment citer dans le document 
+# reflection + organisation de penser (naration + assemblage des donné ) 
+#
