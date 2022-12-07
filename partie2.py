@@ -134,10 +134,10 @@ def get_liste_dot(arbre):
     #creation liste vide
     liste=[]
     if arbre.G is not None:
-        liste.append(arbre.label+'->'+arbre.G.label+';')
+        liste.append(str(arbre.label)+'->'+str(arbre.G.label)+';')
         liste.extend(get_liste_dot(arbre.G))
     if arbre.D is not None:
-        liste.append(arbre.label+'->'+arbre.D.label+';')
+        liste.append(arbre.label+'->'+str(arbre.D.label)+';')
         liste.extend(get_liste_dot(arbre.D))
     return liste
 
@@ -147,7 +147,7 @@ def digraph_in_dot(arbre):
     #creation liste vide
     liste=get_liste_dot(arbre)
     #write file
-    f = open(arbre.label+".dot", "w")
+    f = open(str(arbre.label )+".dot", "w")
     f.write('digraph G {')
     for i in liste:
         f.write("\n\t")
@@ -156,7 +156,7 @@ def digraph_in_dot(arbre):
     f.close()
     return liste
 
-
+digraph_in_dot(arbre_decision)
 
 
 

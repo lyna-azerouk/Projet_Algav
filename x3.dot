@@ -1,0 +1,16 @@
+digraph G {
+	x3->x2;
+	x2->x1;
+	x1->False;
+	x1->True;
+	x2->x1;
+	x1->True;
+	x1->False;
+	x3->x2;
+	x2->x1;
+	x1->False;
+	x1->True;
+	x2->x1;
+	x1->False;
+	x1->False;
+}
