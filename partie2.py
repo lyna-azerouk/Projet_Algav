@@ -1,6 +1,6 @@
 from  partie1 import decomposition 
 from  partie1 import table 
-
+import time
 
 #definition de notre stucture d arbre
 class Arbre():
@@ -53,11 +53,11 @@ def cons_arbre   ( T):
     return T[0]
 
 
-resultat = table (38,8)
-
+resultat = table (38, 8)
+#resultat =[True ,  True ]
 def affiche(arbre ):
     if  arbre !=None :
-        return  (  print ( str ( arbre.mot_luka) + str ( arbre)), affiche( arbre.G)  ,affiche( arbre.D) )
+        return  (  print ( str ( arbre.label) + str ( arbre)), affiche( arbre.G)  ,affiche( arbre.D) )
 
 
 print("parcours prefefixe de l'arbre ")      
@@ -127,8 +127,6 @@ liste =[]
 #   adrsse du noeud false ==>0x00000225B40D09D0
 # adresse du noeud x1(False) (true)==> x1(False)(True)<__main__.Arbre object at 0x00000209CB940950>
 
-
-
 #QUESTION 2.9
 def get_liste_dot(arbre):
     #creation liste vide
@@ -156,7 +154,7 @@ def digraph_in_dot(arbre):
     f.close()
     return liste
 
-digraph_in_dot(arbre_decision)
+#digraph_in_dot(arbre_decision)
 
 
 
@@ -166,30 +164,31 @@ digraph_in_dot(arbre_decision)
 DEBUT PARTIE 3
 
 """
-
-
 #qst 3.10
-def compression_2 ( arbre , liste ):
-   if arbre==None : return  arbre 
+def compression_2 ( arbre  ):
+   if arbre==None : 
+    return  arbre 
    else :
     #2eme regle
     if arbre.G!=None and arbre.G.G!=None and arbre.G.D!=None   and   str (arbre.G.G.mot_luka)==str ( arbre.G.D.mot_luka ) :
-       arbre.G=arbre.G.G ; return  compression_2 ( arbre.D,liste)  ; return  compression_2 ( arbre.G,liste) 
+       arbre.G=arbre.G.G ; return  compression_2 ( arbre.D)  ; return  compression_2 ( arbre.G) 
     if arbre.D!=None and arbre.D.G!=None and arbre.D.D!=None   and   str (arbre.D.G.mot_luka) ==str ( arbre.D.D.mot_luka ) :
-        arbre.D=arbre.D.G  ; return  compression_2( arbre.G ,liste) ; return  compression_2 ( arbre.D,liste) 
+        arbre.D=arbre.D.G  ; return  compression_2( arbre.G ) ; return  compression_2 ( arbre.D) 
     else :
+         compression_2 ( arbre.G )  ;  compression_2 ( arbre.D )
 
-        compression_2 ( arbre.G, liste )  ; compression_2 ( arbre.D, liste )
      
 
-def  compression_bdd ( arbre  ):
+def  compression_bdd ( arbre  ): 
     if arbre ==None : return  arbre 
-    liste =[]
-    #1ere regle et 3 eme regle 
-    arbre_c =  compression (arbre, liste) 
-    #2eme regle 
-    resultat=compression_2(arbre_c,liste)
-    return arbre
+    else :
+        liste =[]
+        #1ere regle et 3 eme regle 
+        arbre_c =  compression (arbre, liste) 
+        #2eme regle 
+        resultat=compression_2(arbre_c )
+        return arbre 
+
 print ("arbre bodd ")
 arbre_Robdd= compression_bdd(arbre_luka)
 affiche(arbre_Robdd) 
@@ -201,21 +200,24 @@ affiche(arbre_Robdd)
 # les adresses dez tout les noeuds True sont les meme True<__main__.Arbre object at 0x00000254D0C3A390>
 
 
+#start = time.time()
+#print (start)
+#arbre_Robdd= compression_bdd(arbre_luka)
+#end = time.time()
+#print ( end )
+#elapsed = end - start
+
+#print(f'Temps d\'exécution : {elapsed:.2}ms')
+
+
+
+# Partie 4 
+
+#Temps d'xecution pour la compression de 20 variables est: 3.5 ms   ( 1670526028.7819424-   1670526026.9136066 ) 
+#Temps d'exceution de la  compression de 27 variables est : infi 
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-# les elment citer dans le document 
-# reflection + organisation de penser (naration + assemblage des donné ) 
-#
