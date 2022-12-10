@@ -1,7 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
 from  partie1 import decomposition 
 from  partie1 import table 
 import time
-
 #definition de notre stucture d arbre
 class Arbre():
     def __init__(self,nom=''):
@@ -22,7 +23,7 @@ class Arbre():
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (3) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
+    for j in range (2) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -53,15 +54,15 @@ def cons_arbre   ( T):
     return T[0]
 
 
-resultat = table (38, 8)
-#resultat =[True ,  True ]
+#resultat = table (38, 8)
+resultat =[False ,  False ,False ,False ,False , False ,False ,False  ]
 def affiche(arbre ):
     if  arbre !=None :
         return  (  print ( str ( arbre.label) + str ( arbre)), affiche( arbre.G)  ,affiche( arbre.D) )
 
 
-print("parcours prefefixe de l'arbre ")      
-arbre_decision=(cons_arbre(resultat)) 
+#print("parcours prefefixe de l'arbre ")      
+#arbre_decision=(cons_arbre(resultat)) 
 #affiche(arbre_decision)
 def luka ( arbre ) : 
     if arbre ==None  :  return  arbre
@@ -74,8 +75,7 @@ def luka ( arbre ) :
            return arbre
 
 
-arbre_luka = luka(arbre_decision)
-#affiche(arbre_luka) 
+#arbre_luka = luka(arbre_decision)
 
 
 #QUESTION 2.8
@@ -169,13 +169,23 @@ def compression_2 ( arbre  ):
    if arbre==None : 
     return  arbre 
    else :
+        
     #2eme regle
     if arbre.G!=None and arbre.G.G!=None and arbre.G.D!=None   and   str (arbre.G.G.mot_luka)==str ( arbre.G.D.mot_luka ) :
-       arbre.G=arbre.G.G ; return  compression_2 ( arbre.D)  ; return  compression_2 ( arbre.G) 
+        arbre.G=arbre.G.G ;  return  compression_2 ( arbre)  ;  return arbre 
+
     if arbre.D!=None and arbre.D.G!=None and arbre.D.D!=None   and   str (arbre.D.G.mot_luka) ==str ( arbre.D.D.mot_luka ) :
-        arbre.D=arbre.D.G  ; return  compression_2( arbre.G ) ; return  compression_2 ( arbre.D) 
+        arbre.D=arbre.D.G  ;  return  compression_2( arbre ) ;   return arbre 
+
+    if arbre.G!=None and arbre.D!=None and str (arbre.G.mot_luka)==str ( arbre.D.mot_luka ): 
+         if  arbre.p != None and (arbre.p).G==arbre :
+            arbre.p.G=arbre.G  ; compression_2( arbre )  
+         if  arbre.p != None and (arbre.p).D==arbre :
+            arbre.p.D=arbre.G  ; compression_2( arbre) 
+         if arbre.p==None :
+                 return arbre.G 
     else :
-         compression_2 ( arbre.G )  ;  compression_2 ( arbre.D )
+         compression_2 ( arbre.G )  ;   compression_2 ( arbre.D ) ; return arbre 
 
      
 
@@ -187,11 +197,11 @@ def  compression_bdd ( arbre  ):
         arbre_c =  compression (arbre, liste) 
         #2eme regle 
         resultat=compression_2(arbre_c )
-        return arbre 
+        return resultat 
 
 print ("arbre bodd ")
-arbre_Robdd= compression_bdd(arbre_luka)
-affiche(arbre_Robdd) 
+#arbre_Robdd= compression_bdd(arbre_luka)
+#affiche(arbre_Robdd) 
 
 #On peut voir que les noeud x1 (False) (True) ont la meme adresse x1(False)(True)<__main__.Arbre object at 0x00000254D0C3A050>
 # le parcour du dernieud x2 affiche x2 , x1(False)(True)<__main__.Arbre object at 0x00000254D0C3A050>False<__main__.Arbre object at 0x00000254D0C3A3D0>True<__main__.Arbre object at 0x00000254D0C3A390> False<__main__.Arbre object at 0x00000254D0C3A3D0>
@@ -215,7 +225,59 @@ affiche(arbre_Robdd)
 
 #Temps d'xecution pour la compression de 20 variables est: 3.5 ms   ( 1670526028.7819424-   1670526026.9136066 ) 
 #Temps d'exceution de la  compression de 27 variables est : infi 
+def nb_noeud ( arbre , l ):
+    if arbre ==None: return 0 
+    else  :
+        if l ==[]:
+            l.append (arbre )
+            return 1  + nb_noeud(arbre.G,nb)+ nb_noeud (arbre.D,nb)
+        else :  
+            if arbre not in l:
+                 l.append (arbre )
+                 return 1  + nb_noeud(arbre.G,nb)+ nb_noeud (arbre.D,nb)
+            else : 
+                return  nb_noeud(arbre.G ,nb)+ nb_noeud (arbre.D,nb)
+nb=[]
 
+def points  ( variable ):
+    L=[]
+    v=[]
+    table=[0 ]* ((2)**variable )
+    t=[]
+    for i in range ((2**2)**variable ) :        
+        for k in  range(2**variable ) : 
+            if table[k]==0 : 
+                t.append ( True )
+            else : t.append ( False)
+        print("--------------------new  ")
+        robdd= compression_bdd (luka (  cons_arbre( t)))
+        affiche(robdd)
+        nb=[]
+        taille=(nb_noeud(robdd , nb))
+        if L==[] :    
+            L.append (taille)
+            v.append ( 1)
+        else : 
+            if taille  not in L :
+                L.append(taille)
+                v.append ( 1)
+            else : 
+                 v[L.index(taille)]=v[L.index(taille )] +1
+        j=0
+        while  j<((2)**variable ) and  table[j]==1 :
+             table [j]=0 
+             j=j+1
+        table [j %(2**variable ) ]=1
+    print (L)
+    print (v)        
+    return [L, v]
+
+
+def dessin (points ) : 
+    plt.scatter(points[0] , points[1])
+    plt.show()
+
+dessin ( points ( 2))
 
 
 
