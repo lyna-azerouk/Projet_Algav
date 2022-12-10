@@ -23,7 +23,7 @@ class Arbre():
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (2) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
+    for j in range (3) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -242,10 +242,10 @@ nb=[]
 def points  ( variable ):
     L=[]
     v=[]
-    table=[0 ]* ((2)**variable )
+    table=[0 ]* ((2)**(variable) )
     t=[]
-    for i in range ((2**2)**variable ) :        
-        for k in  range(2**variable ) : 
+    for i in range (2** len(table) ) :        
+        for k in  range(2** (variable )) : 
             if table[k]==0 : 
                 t.append ( True )
             else : t.append ( False)
@@ -264,7 +264,7 @@ def points  ( variable ):
             else : 
                  v[L.index(taille)]=v[L.index(taille )] +1
         j=0
-        while  j<((2)**variable ) and  table[j]==1 :
+        while  j<(2** (variable )) and  table[j]==1 :
              table [j]=0 
              j=j+1
         table [j %(2**variable ) ]=1
@@ -277,7 +277,7 @@ def dessin (points ) :
     plt.scatter(points[0] , points[1])
     plt.show()
 
-dessin ( points ( 2))
+dessin ( points ( 3))
 
 
 
