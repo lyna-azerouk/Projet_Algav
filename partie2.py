@@ -14,17 +14,17 @@ class Arbre():
         self.p=None
 
 
-   # def __eq__(self, __o: object) -> bool:
-     #   return self.mot_luka == __o.mot_luka
+    #def __eq__(self, o ) -> bool:
+      #return self.mot_luka == o.mot_luka
     
-  #  def __str__(self):
+    #  def __str__(self):
        # return self.label
 
 
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (9) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
+    for j in range (4) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -235,7 +235,7 @@ def points  ( variable ):
     L=[]
     v=[]
     t=[]
-    for i in range (94999 ) :       
+    for i in range (2**(2**variable) ) :       
         aleatoire=table(random.randint (1 , 2**(2**variable)), 2**variable) 
         for k in  range(2** (variable )) : 
             if aleatoire[k]==0 : 
@@ -267,7 +267,7 @@ def dessin (points ) :
     plt.scatter(points[0] , points[1])
     plt.show()
 start = time.time()
-dessin ( points ( 9))
+dessin ( points ( 4))
 end = time.time()
 
 
