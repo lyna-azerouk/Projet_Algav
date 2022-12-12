@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from  partie1 import decomposition 
 from  partie1 import table 
 import time
+import random 
 #definition de notre stucture d arbre
 class Arbre():
     def __init__(self,nom=''):
@@ -23,7 +24,7 @@ class Arbre():
 def cons_arbre   ( T):
     liste =decomposition (len (T))
     arbre=[]
-    for j in range (3) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
+    for j in range (9) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -109,8 +110,9 @@ def compression (arbre, liste):
         #arbre pas dans la table
         if sim == -1:
             liste.append (  [arbre.mot_luka  , arbre  ]) 
-            arbre.D = compression(arbre.D, liste)
             arbre.G = compression(arbre.G, liste)
+            arbre.D = compression(arbre.D, liste)
+            
                 
         #arbre dans la table
         else :
@@ -210,15 +212,6 @@ print ("arbre bodd ")
 # les adresses dez tout les noeuds True sont les meme True<__main__.Arbre object at 0x00000254D0C3A390>
 
 
-#start = time.time()
-#print (start)
-#arbre_Robdd= compression_bdd(arbre_luka)
-#end = time.time()
-#print ( end )
-#elapsed = end - start
-
-#print(f'Temps d\'exécution : {elapsed:.2}ms')
-
 
 
 # Partie 4 
@@ -230,28 +223,25 @@ def nb_noeud ( arbre , l ):
     else  :
         if l ==[]:
             l.append (arbre )
-            return 1  + nb_noeud(arbre.G,nb)+ nb_noeud (arbre.D,nb)
+            return 1  + nb_noeud(arbre.G,l)+ nb_noeud (arbre.D,l)
         else :  
             if arbre not in l:
                  l.append (arbre )
-                 return 1  + nb_noeud(arbre.G,nb)+ nb_noeud (arbre.D,nb)
+                 return 1  + nb_noeud(arbre.G,l)+ nb_noeud (arbre.D,l)
             else : 
-                return  nb_noeud(arbre.G ,nb)+ nb_noeud (arbre.D,nb)
-nb=[]
+                return  nb_noeud(arbre.G ,l)+ nb_noeud (arbre.D,l)
 
 def points  ( variable ):
     L=[]
     v=[]
-    table=[0 ]* ((2)**(variable) )
     t=[]
-    for i in range (2** len(table) ) :        
+    for i in range (94999 ) :       
+        aleatoire=table(random.randint (1 , 2**(2**variable)), 2**variable) 
         for k in  range(2** (variable )) : 
-            if table[k]==0 : 
+            if aleatoire[k]==0 : 
                 t.append ( True )
             else : t.append ( False)
-        print("--------------------new  ")
         robdd= compression_bdd (luka (  cons_arbre( t)))
-        affiche(robdd)
         nb=[]
         taille=(nb_noeud(robdd , nb))
         if L==[] :    
@@ -263,11 +253,11 @@ def points  ( variable ):
                 v.append ( 1)
             else : 
                  v[L.index(taille)]=v[L.index(taille )] +1
-        j=0
-        while  j<(2** (variable )) and  table[j]==1 :
-             table [j]=0 
-             j=j+1
-        table [j %(2**variable ) ]=1
+        #j=0
+        #while  j<(2** (variable )) and  table[j]==1 :
+         #    table [j]=0 
+          #   j=j+1
+       # table [j %(2**variable ) ]=1
     print (L)
     print (v)        
     return [L, v]
@@ -276,10 +266,11 @@ def points  ( variable ):
 def dessin (points ) : 
     plt.scatter(points[0] , points[1])
     plt.show()
-
-dessin ( points ( 3))
-
-
-
+start = time.time()
+dessin ( points ( 9))
+end = time.time()
 
 
+elapsed = end - start
+print (elapsed )
+print(f'Temps d\'exécution : {elapsed:.2}ms')
