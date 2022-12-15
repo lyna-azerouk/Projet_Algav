@@ -4,6 +4,7 @@ from  partie1 import decomposition
 from  partie1 import table 
 import time
 import random 
+import math
 #definition de notre stucture d arbre
 class Arbre():
     def __init__(self,nom=''):
@@ -14,17 +15,19 @@ class Arbre():
         self.p=None
 
 
-    #def __eq__(self, o ) -> bool:
-      #return self.mot_luka == o.mot_luka
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o,Arbre):
+            return NotImplemented   
+        return self.mot_luka == __o.mot_luka
     
-    #  def __str__(self):
-       # return self.label
+    def __str__(self):
+       return self.label
 
 
 def cons_arbre   ( T):
-    liste =decomposition (len (T))
+    #liste =decomposition (len (T))
     arbre=[]
-    for j in range (4) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
+    for j in range (math.log2(len(T))) :   # 3 == nbr de bit a a dans taille (T) ou le nobre de variable 8=2^3
         i=0
         while i <len( T)-1 : 
             if j==0 : 
@@ -143,6 +146,7 @@ def get_liste_dot(arbre):
 
 #Input est la racine de l arbre
 #le resultat est un fichier {nom_arbre}.dot
+#probleme besoin de changer en prenant en compte les id
 def digraph_in_dot(arbre):
     #creation liste vide
     liste=get_liste_dot(arbre)
@@ -201,7 +205,7 @@ def  compression_bdd ( arbre  ):
         resultat=compression_2(arbre_c )
         return resultat 
 
-print ("arbre bodd ")
+#print ("arbre bodd ")
 #arbre_Robdd= compression_bdd(arbre_luka)
 #affiche(arbre_Robdd) 
 
