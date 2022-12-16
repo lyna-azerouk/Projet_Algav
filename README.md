@@ -20,9 +20,13 @@ Les reponse de la 2eme et 3 eme et 4 eme partie est dans le fichier patrie2.py :
 
 
 pour lancer le fichier: py partie2.py . 
-un affiche sur le terminale : ->represante le nombre de noeud d'un arbre compresser avec 6 variable sur 2^(100)+1 . 
-                              ->affiche dune garaphe corepondant  a la variable 3 .
+
+un affiche sur le terminale : 
+    ->represante le nombre de noeud d'un arbre compresser avec 6 variable sur 2^(100)+1 . 
+    ->affiche dune garaphe corepondant  a la variable 3 .
                            
 
 
-un fichier 
+un fichier qst.10.py contient une fonction compression_bdd .
+
+un fichier test.py.
