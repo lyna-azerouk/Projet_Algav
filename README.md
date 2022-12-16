@@ -4,9 +4,9 @@
 
 Ce projet conciste a construire un Robdd a partir d'une table de vérité .
 
-Les réponses de la partie1 du projet se trouve dans le fichier partie1.py.
+Les réponses de la partie1 du projet se trouve dans le fichier partie1.py .
 
-Les reponse de la 2eme et 3 eme et 4 eme partie est dans le fichier patrie2.py:
+Les reponse de la 2eme et 3 eme et 4 eme partie est dans le fichier patrie2.py :
     ->definition de notre stucture d arbre.
     ->cons_arbre Fonction construction de l'arbre.
     -> Luka      fonction pour la creation du mot luka
@@ -18,9 +18,9 @@ Les reponse de la 2eme et 3 eme et 4 eme partie est dans le fichier patrie2.py:
     ->calcule du temps d'excution de la fonction points 
 
 
-pour lancer le fichier: py partie2.py. 
-un affiche sur le terminale : ->represante le nombre de noeud d'un arbre compresser avec 6 variable sur 2^(100)+1
-                              ->affiche dune garaphe corepondant  a la variable 3 
+pour lancer le fichier: py partie2.py . 
+un affiche sur le terminale : ->represante le nombre de noeud d'un arbre compresser avec 6 variable sur 2^(100)+1 . 
+                              ->affiche dune garaphe corepondant  a la variable 3 .
                            
 
 
